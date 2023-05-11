@@ -1,0 +1,26 @@
+Linje 92 - 113 på "DwarvenTechnologies.cs"
+
+boolean spawnDebounce IS false // Bara så att det spawnar inte varje millisekund
+
+function SpawnEntity(positionX, positionY, sizeX, sizeY, columns, rows, texture, cooldownTime, name, entityHealth, waitTime)
+{
+    IF spawnDebounce EQUALS on THEN return // Om debouncet är aktivt spawnar det inte
+
+    spawnDebounce IS true // Aktivera debouncet
+    Wait (cooldown) // Vänta for ett stund
+    spawnDebounce IS false // Avaktivera debouncet
+    Entity entity IS NEW Entity(positionX, positionY, sizeX, sizeY, columns, rows, texture, false, true) // Skapa enheten
+    entity speed IS Random FROM 5 TO 15 // Ställ in hastigheten
+
+    // Skapa namnet, samt med nummret
+    number IS FindIndexOfEntity(entity)
+    IF number IS 0 THEN entity name IS name + number
+    ELSE entity name IS name
+
+    entity health IS entityHealth
+    PrintInDebug("Spawned entity: " + entity name) // Debug Mode: Skriva ut namnet av enheten som var spawnade
+
+    Wait (waitTime) // När denna timern är klart då är det inte osårbar och låst
+    entity locked IS false
+    entity invincible IS false
+}
